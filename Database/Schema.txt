@@ -1,0 +1,101 @@
+CREATE TABLE MANAGER(
+    mng_id int(5) AUTO_INCREMENT PRIMARY KEY,
+    first_name varchar(50) NOT NULL,
+    last_name varchar(50) NOT NULL,
+    email varchar(100) UNIQUE NOT NULL,
+    phone_no varchar(20),
+    password varchar(100) NOT NULL,
+    address varchar(100),
+    date_of_birth date
+
+);
+
+CREATE TABLE CUSTOMERS(
+    cust_id int(5) AUTO_INCREMENT PRIMARY KEY,
+    first_name varchar(50) NOT NULL,
+    last_name varchar(50) NOT NULL,
+    email varchar(100) UNIQUE NOT NULL,
+    phone_no varchar(20),
+    address varchar(100),
+    password varchar(100) NOT NULL,
+    mng_id int,
+    date_of_birth date,
+    FOREIGN KEY(mng_id) REFERENCES manager(mng_id)
+);
+
+CREATE TABLE orders(
+    order_id int AUTO_INCREMENT PRIMARY KEY,
+    date_of_order date NOT null,
+    total_amount decimal(10, 2) NOT null,
+    quantity int(6) NOT null,
+    cust_id int,
+    FOREIGN KEY(cust_id) REFERENCES customers(cust_id)
+);
+CREATE TABLE CATEGORY(
+    cat_id int AUTO_INCREMENT PRIMARY KEY,
+    cat_name varchar(25) NOT null
+
+);
+CREATE TABLE BILL(
+    bill_id int AUTO_INCREMENT PRIMARY KEY,
+    bill_date date NOT null,
+    total_amount decimal(10, 2) NOT NULL,
+    tax decimal(6, 2) NOT NULL,
+    cust_id int,
+    order_id int,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (cust_id) REFERENCES customers(cust_id)
+
+);
+
+CREATE TABLE MENU(  
+    item_id int AUTO_INCREMENT PRIMARY KEY,
+    food_name varchar(25) NOT NULL,
+    price decimal(10,2) NOT null,
+    cat_id int,
+    FOREIGN KEY (cat_id) REFERENCES category(cat_id)
+);
+CREATE TABLE CART(
+    cart_id int AUTO_INCREMENT PRIMARY KEY,
+    quantity int NOT null,
+    total_amount decimal(10, 2) NOT NULL,
+    cust_id int,
+    item_id int,
+    FOREIGN KEY (cust_id) REFERENCES customers(cust_id),
+    FOREIGN KEY(item_id) REFERENCES menu (item_id) ON DELETE CASCADE
+);
+CREATE TABLE ORDER_MENU(
+     item_id int,
+    order_id int,
+    FOREIGN KEY (item_id) REFERENCES menu(item_id) ON DELETE CASCADE,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id)
+);
+
+CREATE TABLE CONTACT(
+    cont_id int AUTO_INCREMENT PRIMARY KEY,
+    message varchar(100) NOT null,
+    cust_id int,
+    FOREIGN KEY (cust_id) REFERENCES customers(cust_id)
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
